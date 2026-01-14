@@ -36,6 +36,11 @@ command:
     description: Rimuovere una canzone dalla coda
     position_description: La posizione della canzone da rimuovere (indicizzata a partire
       da 1)
+  language:
+    description: Impostare la lingua del bot
+    language_description: Il codice della lingua (ad es., en, es, de, fr)
+    personal_description: Imposta la lingua solo per te (true) o per l'intero server
+      (false)
 response:
   now_playing: 'In riproduzione: **{title}** [{duration}]'
   added_to_queue: 'Aggiunto alla coda in posizione {position}: **{title}** [{duration}]'
@@ -63,6 +68,11 @@ response:
   queue_shuffled: Coda mescolata!
   removed_track: 'Rimosso: **{title}** dalla posizione {position}'
   invalid_position: Posizione non valida. La coda contiene {count} tracce.
+  language_set_personal: La tua lingua personale è stata impostata su **{language}**.
+  language_set_guild: La lingua del server è stata impostata su **{language}**.
+  invalid_language: 'Codice lingua non valido. Lingue disponibili: {languages}'
+  need_manage_guild: Hai bisogno del permesso Gestisci il server per cambiare la lingua
+    del server.
 track:
   unknown_title: Sconosciuto
 log:

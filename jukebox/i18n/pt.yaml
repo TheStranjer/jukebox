@@ -34,6 +34,11 @@ command:
   remove:
     description: Remover uma música da fila
     position_description: A posição da música a remover (indexada a partir de 1)
+  language:
+    description: Definir o idioma do bot
+    language_description: O código do idioma (por exemplo, en, es, de, fr)
+    personal_description: Definir o idioma apenas para você (true) ou para todo o
+      servidor (false)
 response:
   now_playing: 'Tocando agora: **{title}** [{duration}]'
   added_to_queue: 'Adicionado à fila na posição {position}: **{title}** [{duration}]'
@@ -60,6 +65,11 @@ response:
   queue_shuffled: Fila embaralhada!
   removed_track: 'Removido: **{title}** da posição {position}'
   invalid_position: Posição inválida. A fila tem {count} faixas.
+  language_set_personal: O seu idioma pessoal foi definido para **{language}**.
+  language_set_guild: O idioma do servidor foi definido para **{language}**.
+  invalid_language: 'Código de idioma inválido. Idiomas disponíveis: {languages}'
+  need_manage_guild: Você precisa da permissão Gerenciar servidor para alterar o idioma
+    do servidor.
 track:
   unknown_title: Desconhecido
 log:

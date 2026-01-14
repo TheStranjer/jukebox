@@ -33,6 +33,10 @@ command:
   remove:
     description: 큐에서 노래 제거하기
     position_description: 제거할 곡의 위치(1부터 시작하는 인덱스)
+  language:
+    description: 봇의 언어를 설정
+    language_description: '언어 코드(예: en, es, de, fr)'
+    personal_description: 자신에게만 언어를 설정 (true) 할지 전체 서버에 설정 (false) 할지
 response:
   now_playing: '지금 재생 중: **{title}** [{duration}]'
   added_to_queue: '대기열의 {position}번째에 추가되었습니다: **{title}** [{duration}]'
@@ -59,6 +63,10 @@ response:
   queue_shuffled: 대기열이 섞였습니다!
   removed_track: '제거됨: 위치 {position}에서 **{title}** 을(를) 제거했습니다'
   invalid_position: 잘못된 위치입니다. 큐에는 {count}개의 트랙이 있습니다.
+  language_set_personal: 귀하의 개인 언어가 **{language}**로 설정되었습니다.
+  language_set_guild: 서버 언어가 **{language}**로 설정되었습니다.
+  invalid_language: '잘못된 언어 코드입니다. 사용 가능한 언어: {languages}'
+  need_manage_guild: 서버의 언어를 변경하려면 서버 관리 권한이 필요합니다.
 track:
   unknown_title: 알 수 없음
 log:

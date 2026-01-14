@@ -33,6 +33,10 @@ command:
   remove:
     description: 从队列中移除一首歌曲
     position_description: 要移除的歌曲的位置（从1开始的索引）
+  language:
+    description: 设置机器人的语言
+    language_description: 语言代码（例如：en、es、de、fr）
+    personal_description: 仅为你自己设置语言 (true) 还是为整个服务器设置 (false)
 response:
   now_playing: '正在播放: **{title}** [{duration}]'
   added_to_queue: '已添加到队列，位置 {position}: **{title}** [{duration}]'
@@ -59,6 +63,10 @@ response:
   queue_shuffled: 队列已打乱！
   removed_track: '已移除: **{title}** 从位置 {position}'
   invalid_position: 位置无效。队列有 {count} 首曲目。
+  language_set_personal: 您的个人语言已设置为**{language}**。
+  language_set_guild: 服务器语言已设置为 **{language}**。
+  invalid_language: 无效的语言代码。可用语言：{languages}
+  need_manage_guild: 要更改服务器语言，您需要“管理服务器”权限。
 track:
   unknown_title: 未知
 log:

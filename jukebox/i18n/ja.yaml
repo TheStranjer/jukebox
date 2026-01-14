@@ -33,6 +33,10 @@ command:
   remove:
     description: キューから曲を削除する
     position_description: 削除する曲の位置（1始まり）
+  language:
+    description: ボットの言語を設定する
+    language_description: 言語コード（例：en、es、de、fr）
+    personal_description: 自分だけに言語を設定する (true) またはサーバー全体に設定する (false)
 response:
   now_playing: '再生中: **{title}** [{duration}]'
   added_to_queue: 'キューの{position}番目に追加されました: **{title}** [{duration}]'
@@ -59,6 +63,10 @@ response:
   queue_shuffled: キューをシャッフルしました！
   removed_track: '削除: 位置 {position} から **{title}** を削除しました'
   invalid_position: 無効な位置です。キューには{count}曲があります。
+  language_set_personal: あなたの個人用言語が**{language}**に設定されました。
+  language_set_guild: サーバーの言語が **{language}** に設定されました。
+  invalid_language: 無効な言語コードです。使用可能な言語：{languages}
+  need_manage_guild: サーバーの言語を変更するには、サーバーを管理する権限が必要です。
 track:
   unknown_title: 不明
 log:

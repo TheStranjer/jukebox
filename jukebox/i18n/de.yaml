@@ -35,6 +35,11 @@ command:
   remove:
     description: Einen Titel aus der Warteschlange entfernen
     position_description: Die Position des zu entfernenden Liedes (1-basiert)
+  language:
+    description: Sprache des Bots festlegen
+    language_description: Der Sprachcode (z. B., en, es, de, fr)
+    personal_description: Sprache nur für dich festlegen (true) oder für den gesamten
+      Server (false)
 response:
   now_playing: 'Jetzt läuft: **{title}** [{duration}]'
   added_to_queue: 'Zur Warteschlange an Position {position} hinzugefügt: **{title}**
@@ -64,6 +69,11 @@ response:
   queue_shuffled: Warteschlange wurde gemischt!
   removed_track: 'Entfernt: **{title}** von Position {position}'
   invalid_position: Ungültige Position. Die Warteschlange hat {count} Titel.
+  language_set_personal: Ihre persönliche Sprache wurde auf **{language}** eingestellt.
+  language_set_guild: Die Serversprache wurde auf **{language}** gesetzt.
+  invalid_language: 'Ungültiger Sprachcode. Verfügbare Sprachen: {languages}'
+  need_manage_guild: Du benötigst die Berechtigung "Server verwalten", um die Serversprache
+    zu ändern.
 track:
   unknown_title: Unbekannt
 log:

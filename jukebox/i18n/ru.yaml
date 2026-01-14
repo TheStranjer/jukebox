@@ -34,6 +34,11 @@ command:
   remove:
     description: Удалить песню из очереди
     position_description: Позиция песни для удаления (индексация с 1)
+  language:
+    description: Установить язык бота
+    language_description: Код языка (например, en, es, de, fr)
+    personal_description: Установить язык только для вас (true) или для всего сервера
+      (false)
 response:
   now_playing: 'Сейчас играет: **{title}** [{duration}]'
   added_to_queue: 'Добавлено в очередь на позицию {position}: **{title}** [{duration}]'
@@ -60,6 +65,11 @@ response:
   queue_shuffled: Очередь перемешана!
   removed_track: 'Удалено: **{title}** с позиции {position}'
   invalid_position: Неверная позиция. В очереди {count} треков.
+  language_set_personal: Ваш личный язык установлен на **{language}**.
+  language_set_guild: Язык сервера был установлен на **{language}**.
+  invalid_language: 'Неверный код языка. Доступные языки: {languages}'
+  need_manage_guild: Чтобы изменить язык сервера, вам требуется разрешение «Управлять
+    сервером».
 track:
   unknown_title: Неизвестно
 log:

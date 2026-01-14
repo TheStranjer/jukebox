@@ -36,6 +36,11 @@ command:
     description: Supprimer une chanson de la file d'attente
     position_description: La position de la chanson à supprimer (indexée à partir
       de 1)
+  language:
+    description: Définir la langue du bot
+    language_description: Le code de langue (p. ex., en, es, de, fr)
+    personal_description: Définir la langue pour vous uniquement (true) ou pour tout
+      le serveur (false)
 response:
   now_playing: 'Lecture en cours: **{title}** [{duration}]'
   added_to_queue: 'Ajouté à la file d''attente à la position {position} : **{title}**
@@ -63,6 +68,11 @@ response:
   queue_shuffled: La file d'attente a été mélangée !
   removed_track: 'Supprimé: **{title}** de la position {position}'
   invalid_position: Position invalide. La file d'attente contient {count} titres.
+  language_set_personal: Votre langue personnelle a été définie sur **{language}**.
+  language_set_guild: La langue du serveur a été définie sur **{language}**.
+  invalid_language: 'Code de langue invalide. Langues disponibles : {languages}'
+  need_manage_guild: Vous avez besoin de l'autorisation Gérer le serveur pour changer
+    la langue du serveur.
 track:
   unknown_title: Inconnu
 log:
