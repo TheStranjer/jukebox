@@ -3,3 +3,5 @@ yt-dlp
 python-dotenv
 pytest
 pyyaml
+ruff
+
