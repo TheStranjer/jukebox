@@ -10,7 +10,6 @@ from jukebox.bot import (
     JukeboxBot,
     JukeboxCog,
     MAX_RECONNECT_ATTEMPTS,
-    RECONNECT_DELAY_SECONDS,
 )
 from jukebox.track import Track
 
