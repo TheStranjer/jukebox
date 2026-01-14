@@ -1,0 +1,67 @@
+---
+error:
+  discord_token_not_set: 'Erro: a variável de ambiente DISCORD_TOKEN não está definida.'
+  discord_token_instructions: Por favor, defina-o em um arquivo .env ou como uma variável
+    de ambiente.
+  server_only_command: Este comando só pode ser usado em um servidor.
+  need_voice_channel: Você precisa estar em um canal de voz.
+  fetch_track: 'Erro ao obter a faixa: {error}'
+  playback: 'Erro de reprodução: {error}'
+  extract_info: 'Não foi possível extrair informações da URL: {url}'
+  index_out_of_range: 'Índice {index} fora do intervalo (tamanho da fila: {size})'
+  from_index_out_of_range: from_index {index} fora do intervalo
+  to_index_out_of_range: to_index {index} fora do intervalo
+command:
+  play:
+    description: Reproduzir uma música a partir de uma URL
+    url_description: A URL da música para reproduzir (YouTube, SoundCloud, etc.)
+  skip:
+    description: Pular a música atual
+  queue:
+    description: Mostrar a fila atual
+  clear:
+    description: Limpar a fila
+  stop:
+    description: Parar a reprodução e desconectar
+  pause:
+    description: Pausar a música atual
+  resume:
+    description: Retomar a música pausada
+  nowplaying:
+    description: Mostrar a música atual
+  shuffle:
+    description: Embaralhar a fila
+  remove:
+    description: Remover uma música da fila
+    position_description: A posição da música a remover (indexada a partir de 1)
+response:
+  now_playing: 'Tocando agora: **{title}** [{duration}]'
+  added_to_queue: 'Adicionado à fila na posição {position}: **{title}** [{duration}]'
+  nothing_playing: Nada está tocando.
+  skipped_with_title: 'Ignorado: **{title}**'
+  skipped: Ignorado.
+  queue_empty: A fila está vazia.
+  queue_now_playing: "**Tocando agora:** {title} [{duration}]"
+  queue_up_next: 'A seguir:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... e mais {count}"
+  queue_total_time_hours: "**Tempo total na fila:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Tempo total na fila:** {minutes}m {seconds}s"
+  cleared_tracks: Foram removidas {count} faixas da fila.
+  not_connected: Não conectado a um canal de voz.
+  stopped_disconnected: A reprodução foi interrompida e a conexão foi desconectada.
+  paused: Pausado.
+  nothing_paused: Nada está em pausa.
+  resumed: Retomado.
+  nowplaying_detail: |-
+    **Tocando agora:** {title} [{duration}]
+    Solicitado por: {requester}
+  not_enough_tracks_shuffle: Não há faixas suficientes na fila para embaralhar.
+  queue_shuffled: Fila embaralhada!
+  removed_track: 'Removido: **{title}** da posição {position}'
+  invalid_position: Posição inválida. A fila tem {count} faixas.
+track:
+  unknown_title: Desconhecido
+log:
+  slash_commands_synced: Comandos slash sincronizados
+  logged_in: Conectado como {user}

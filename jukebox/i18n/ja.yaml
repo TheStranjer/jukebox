@@ -1,0 +1,66 @@
+---
+error:
+  discord_token_not_set: 'エラー: 環境変数 DISCORD_TOKEN が設定されていません。'
+  discord_token_instructions: それを .env ファイルに設定するか、環境変数として設定してください。
+  server_only_command: このコマンドはサーバーでのみ使用できます。
+  need_voice_channel: ボイスチャンネルに参加している必要があります。
+  fetch_track: 'トラックの取得中にエラーが発生しました: {error}'
+  playback: '再生エラー: {error}'
+  extract_info: 'URLから情報を抽出できませんでした: {url}'
+  index_out_of_range: 'インデックス {index} が範囲外です (キューサイズ: {size})'
+  from_index_out_of_range: from_index {index} は範囲外です
+  to_index_out_of_range: to_index {index} が範囲外です
+command:
+  play:
+    description: URLから曲を再生する
+    url_description: 再生する曲のURL（YouTube、SoundCloudなど）
+  skip:
+    description: 現在の曲をスキップする
+  queue:
+    description: 現在のキューを表示する
+  clear:
+    description: キューをクリア
+  stop:
+    description: 再生を停止して切断する
+  pause:
+    description: 現在の曲を一時停止する
+  resume:
+    description: 一時停止した曲を再生する
+  nowplaying:
+    description: 現在の曲を表示
+  shuffle:
+    description: キューをシャッフルする
+  remove:
+    description: キューから曲を削除する
+    position_description: 削除する曲の位置（1始まり）
+response:
+  now_playing: '再生中: **{title}** [{duration}]'
+  added_to_queue: 'キューの{position}番目に追加されました: **{title}** [{duration}]'
+  nothing_playing: 何も再生されていません。
+  skipped_with_title: 'スキップされました: **{title}**'
+  skipped: スキップされました。
+  queue_empty: キューは空です。
+  queue_now_playing: "**再生中:** {title} [{duration}]"
+  queue_up_next: '次に:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... とあと {count}件"
+  queue_total_time_hours: "**キューの合計待ち時間:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**総待ち時間:** {minutes}m {seconds}s"
+  cleared_tracks: キューから{count}曲をクリアしました。
+  not_connected: ボイスチャンネルに接続されていません。
+  stopped_disconnected: 再生が停止され、切断されました。
+  paused: 一時停止中。
+  nothing_paused: 何も一時停止されていません。
+  resumed: 再開しました。
+  nowplaying_detail: |-
+    **再生中:** {title} [{duration}]
+    リクエスト: {requester}
+  not_enough_tracks_shuffle: シャッフルするにはキューにトラックが不足しています。
+  queue_shuffled: キューをシャッフルしました！
+  removed_track: '削除: 位置 {position} から **{title}** を削除しました'
+  invalid_position: 無効な位置です。キューには{count}曲があります。
+track:
+  unknown_title: 不明
+log:
+  slash_commands_synced: スラッシュコマンドが同期されました
+  logged_in: "{user}としてログインしています"

@@ -1,0 +1,67 @@
+---
+error:
+  discord_token_not_set: 'Error: la variable de entorno DISCORD_TOKEN no está establecida.'
+  discord_token_instructions: Por favor, configúrelo en un archivo .env o como una
+    variable de entorno.
+  server_only_command: Este comando solo se puede usar en un servidor.
+  need_voice_channel: Debes estar en un canal de voz.
+  fetch_track: 'Error al obtener la pista: {error}'
+  playback: 'Error de reproducción: {error}'
+  extract_info: 'No se pudo extraer la información de la URL: {url}'
+  index_out_of_range: 'Índice {index} fuera de rango (tamaño de la cola: {size})'
+  from_index_out_of_range: from_index {index} fuera de rango
+  to_index_out_of_range: to_index {index} fuera de rango
+command:
+  play:
+    description: Reproducir una canción desde una URL
+    url_description: La URL de la canción a reproducir (YouTube, SoundCloud, etc.)
+  skip:
+    description: Saltar la canción actual
+  queue:
+    description: Mostrar la cola actual
+  clear:
+    description: Vaciar la cola
+  stop:
+    description: Detener la reproducción y desconectar
+  pause:
+    description: Pausa la canción actual
+  resume:
+    description: Reanuda la canción pausada
+  nowplaying:
+    description: Mostrar la canción actual
+  shuffle:
+    description: Mezclar la cola
+  remove:
+    description: Eliminar una canción de la cola
+    position_description: La posición de la canción a eliminar (indexada desde 1)
+response:
+  now_playing: 'Reproduciendo ahora: **{title}** [{duration}]'
+  added_to_queue: 'Añadido a la cola en la posición {position}: **{title}** [{duration}]'
+  nothing_playing: No se está reproduciendo nada.
+  skipped_with_title: 'Omitido: **{title}**'
+  skipped: Omitido.
+  queue_empty: La cola está vacía.
+  queue_now_playing: "**Reproduciendo ahora:** {title} [{duration}]"
+  queue_up_next: 'A continuación:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... y {count} más"
+  queue_total_time_hours: "**Tiempo total en cola:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Tiempo total en la cola:** {minutes}m {seconds}s"
+  cleared_tracks: Se han eliminado {count} pistas de la cola.
+  not_connected: No conectado a un canal de voz.
+  stopped_disconnected: Se detuvo la reproducción y se desconectó.
+  paused: Pausado.
+  nothing_paused: Nada está en pausa.
+  resumed: Reanudado.
+  nowplaying_detail: |-
+    **Reproduciendo ahora:** {title} [{duration}]
+    Solicitado por: {requester}
+  not_enough_tracks_shuffle: No hay suficientes pistas en la cola para mezclar.
+  queue_shuffled: "¡Cola mezclada!"
+  removed_track: 'Eliminado: **{title}** de la posición {position}'
+  invalid_position: Posición no válida. La cola tiene {count} pistas.
+track:
+  unknown_title: Desconocido
+log:
+  slash_commands_synced: Comandos slash sincronizados
+  logged_in: Conectado como {user}

@@ -1,0 +1,66 @@
+---
+error:
+  discord_token_not_set: 错误：环境变量 DISCORD_TOKEN 未设置。
+  discord_token_instructions: 请将其设置在 .env 文件中或作为环境变量。
+  server_only_command: 此命令只能在服务器中使用。
+  need_voice_channel: 你需要在语音频道中。
+  fetch_track: '获取曲目时出错: {error}'
+  playback: 播放错误：{error}
+  extract_info: 无法从 URL 提取信息：{url}
+  index_out_of_range: '索引 {index} 超出范围 (队列大小: {size})'
+  from_index_out_of_range: from_index {index} 超出范围
+  to_index_out_of_range: to_index {index} 超出范围
+command:
+  play:
+    description: 从 URL 播放一首歌曲
+    url_description: 要播放的歌曲的 URL（YouTube、SoundCloud 等）
+  skip:
+    description: 跳过当前歌曲
+  queue:
+    description: 显示当前队列
+  clear:
+    description: 清空队列
+  stop:
+    description: 停止播放并断开连接
+  pause:
+    description: 暂停当前歌曲
+  resume:
+    description: 继续播放已暂停的歌曲
+  nowplaying:
+    description: 显示当前歌曲
+  shuffle:
+    description: 将队列打乱
+  remove:
+    description: 从队列中移除一首歌曲
+    position_description: 要移除的歌曲的位置（从1开始的索引）
+response:
+  now_playing: '正在播放: **{title}** [{duration}]'
+  added_to_queue: '已添加到队列，位置 {position}: **{title}** [{duration}]'
+  nothing_playing: 当前没有正在播放的内容。
+  skipped_with_title: '已跳过: **{title}**'
+  skipped: 已跳过。
+  queue_empty: 队列为空。
+  queue_now_playing: "**正在播放:** {title} [{duration}]"
+  queue_up_next: '接下来:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... 还有 {count} 个"
+  queue_total_time_hours: "**队列总等待时间：** {hours}h {minutes}m"
+  queue_total_time_minutes: "**队列总时间:** {minutes}m {seconds}s"
+  cleared_tracks: 已从队列中清除 {count} 首曲目。
+  not_connected: 未连接到语音频道。
+  stopped_disconnected: 已停止播放并已断开连接。
+  paused: 已暂停。
+  nothing_paused: 没有任何内容被暂停。
+  resumed: 已恢复。
+  nowplaying_detail: |-
+    **正在播放:** {title} [{duration}]
+    请求者: {requester}
+  not_enough_tracks_shuffle: 队列中的曲目不足，无法进行随机播放。
+  queue_shuffled: 队列已打乱！
+  removed_track: '已移除: **{title}** 从位置 {position}'
+  invalid_position: 位置无效。队列有 {count} 首曲目。
+track:
+  unknown_title: 未知
+log:
+  slash_commands_synced: 斜杠命令已同步
+  logged_in: 已登录为 {user}
