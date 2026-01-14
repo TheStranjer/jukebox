@@ -1,6 +1,5 @@
 """Unit tests for Track dataclass."""
 
-import pytest
 
 from jukebox.track import Track
 
