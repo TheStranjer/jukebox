@@ -78,3 +78,8 @@ track:
 log:
   slash_commands_synced: "Slash commands synced"
   logged_in: "Logged in as {user}"
+  unexpected_disconnect: "Unexpected voice disconnect in guild {guild_id}, attempting reconnect..."
+  reconnecting: "Reconnecting to voice (attempt {attempt}/{max_attempts}) in guild {guild_id}"
+  reconnect_failed_max_attempts: "Failed to reconnect after max attempts in guild {guild_id}"
+  reconnect_error: "Reconnection error in guild {guild_id}: {error}"
+  resuming_playback: "Resuming playback after reconnect in guild {guild_id}"

@@ -28,6 +28,10 @@ FFMPEG_OPTIONS = {
     "options": "-vn",
 }
 
+# Reconnection settings
+MAX_RECONNECT_ATTEMPTS = 3
+RECONNECT_DELAY_SECONDS = 2.0
+
 
 class GuildState:
     """Per-guild state for the bot."""
@@ -36,6 +40,10 @@ class GuildState:
         self.jukebox = Jukebox()
         self.voice_client: discord.VoiceClient | None = None
         self.is_playing = False
+        # Reconnection state
+        self.target_channel_id: int | None = None
+        self.intentional_disconnect = False
+        self.reconnect_attempts = 0
 
 
 class JukeboxBot(commands.Bot):
@@ -71,6 +79,29 @@ class JukeboxCog(commands.Cog):
     def __init__(self, bot: JukeboxBot):
         self.bot = bot
 
+    @commands.Cog.listener()
+    async def on_voice_state_update(
+        self,
+        member: discord.Member,
+        before: discord.VoiceState,
+        after: discord.VoiceState,
+    ) -> None:
+        """Handle voice state changes to detect disconnections."""
+        # Only care about the bot's own voice state changes
+        if member.id != self.bot.user.id:  # type: ignore[union-attr]
+            return
+
+        state = self.bot.get_guild_state(member.guild.id)
+
+        # Bot was disconnected from voice
+        if before.channel is not None and after.channel is None:
+            # If we were playing and it wasn't intentional, attempt reconnect
+            if state.is_playing and not state.intentional_disconnect:
+                logger.info(
+                    t("log.unexpected_disconnect", guild_id=member.guild.id)
+                )
+                await self._attempt_reconnect(member.guild.id)
+
     async def _ensure_voice(
         self, interaction: discord.Interaction
     ) -> tuple[GuildState, discord.VoiceClient] | None:
@@ -98,6 +129,11 @@ class JukeboxCog(commands.Cog):
         elif state.voice_client.channel != member.voice.channel:
             await state.voice_client.move_to(member.voice.channel)
 
+        # Track target channel for reconnection and reset reconnect state
+        state.target_channel_id = member.voice.channel.id
+        state.intentional_disconnect = False
+        state.reconnect_attempts = 0
+
         return state, state.voice_client
 
     def _play_next(self, guild_id: int) -> None:
@@ -105,7 +141,13 @@ class JukeboxCog(commands.Cog):
         state = self.bot.get_guild_state(guild_id)
 
         if state.voice_client is None or not state.voice_client.is_connected():
-            state.is_playing = False
+            # Don't stop - attempt reconnection if not intentional
+            if not state.intentional_disconnect and state.is_playing:
+                asyncio.run_coroutine_threadsafe(
+                    self._attempt_reconnect(guild_id), self.bot.loop
+                )
+            else:
+                state.is_playing = False
             return
 
         next_track = state.jukebox.next()
@@ -135,6 +177,59 @@ class JukeboxCog(commands.Cog):
     async def _async_play_next(self, guild_id: int) -> None:
         """Async wrapper for playing next track."""
         self._play_next(guild_id)
+
+    async def _attempt_reconnect(self, guild_id: int) -> bool:
+        """Attempt to reconnect to voice channel after unexpected disconnect.
+
+        Returns True if reconnection was successful.
+        """
+        state = self.bot.get_guild_state(guild_id)
+
+        if state.intentional_disconnect:
+            return False
+
+        if state.target_channel_id is None:
+            return False
+
+        if state.reconnect_attempts >= MAX_RECONNECT_ATTEMPTS:
+            logger.warning(t("log.reconnect_failed_max_attempts", guild_id=guild_id))
+            state.is_playing = False
+            return False
+
+        state.reconnect_attempts += 1
+        logger.info(
+            t(
+                "log.reconnecting",
+                attempt=state.reconnect_attempts,
+                max_attempts=MAX_RECONNECT_ATTEMPTS,
+                guild_id=guild_id,
+            )
+        )
+
+        try:
+            await asyncio.sleep(RECONNECT_DELAY_SECONDS)
+
+            guild = self.bot.get_guild(guild_id)
+            if guild is None:
+                return False
+
+            channel = guild.get_channel(state.target_channel_id)
+            if channel is None or not isinstance(channel, discord.VoiceChannel):
+                return False
+
+            state.voice_client = await channel.connect()
+            state.reconnect_attempts = 0
+
+            # Resume playback if we have a current track
+            if state.jukebox.current is not None:
+                logger.info(t("log.resuming_playback", guild_id=guild_id))
+                self._play_track(state, state.jukebox.current, guild_id)
+            return True
+
+        except Exception as e:
+            logger.error(t("log.reconnect_error", error=e, guild_id=guild_id))
+            # Try again recursively
+            return await self._attempt_reconnect(guild_id)
 
     @app_commands.command(name="play", description=t("command.play.description"))
     @app_commands.describe(url=t("command.play.url_description"))
@@ -262,6 +357,8 @@ class JukeboxCog(commands.Cog):
         state.jukebox.clear()
         state.jukebox.stop()
         state.is_playing = False
+        state.intentional_disconnect = True  # Prevent auto-reconnect
+        state.target_channel_id = None
         await state.voice_client.disconnect()
         state.voice_client = None
         await interaction.response.send_message(_t(interaction, "response.stopped_disconnected"))
