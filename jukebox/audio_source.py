@@ -4,6 +4,7 @@ from typing import Protocol
 
 import yt_dlp
 
+from .i18n import t
 from .track import Track
 
 
@@ -51,7 +52,7 @@ class YTDLPSource:
             info = ydl.extract_info(url, download=False)
 
             if info is None:
-                raise ValueError(f"Could not extract info from URL: {url}")
+                raise ValueError(t("error.extract_info", url=url))
 
             # Get the best audio format URL
             stream_url = info.get("url", "")
@@ -64,7 +65,7 @@ class YTDLPSource:
 
             return Track(
                 url=info.get("webpage_url", url),
-                title=info.get("title", "Unknown"),
+                title=info.get("title", t("track.unknown_title")),
                 duration=info.get("duration", 0) or 0,
                 requester=requester,
                 stream_url=stream_url,

@@ -1,0 +1,72 @@
+# Error messages
+error:
+  discord_token_not_set: "Error: DISCORD_TOKEN environment variable not set."
+  discord_token_instructions: "Please set it in a .env file or as an environment variable."
+  server_only_command: "This command can only be used in a server."
+  need_voice_channel: "You need to be in a voice channel."
+  fetch_track: "Error fetching track: {error}"
+  playback: "Playback error: {error}"
+  extract_info: "Could not extract info from URL: {url}"
+  index_out_of_range: "Index {index} out of range (queue size: {size})"
+  from_index_out_of_range: "from_index {index} out of range"
+  to_index_out_of_range: "to_index {index} out of range"
+
+# Command descriptions
+command:
+  play:
+    description: "Play a song from a URL"
+    url_description: "The URL of the song to play (YouTube, SoundCloud, etc.)"
+  skip:
+    description: "Skip the current song"
+  queue:
+    description: "Show the current queue"
+  clear:
+    description: "Clear the queue"
+  stop:
+    description: "Stop playback and disconnect"
+  pause:
+    description: "Pause the current song"
+  resume:
+    description: "Resume the paused song"
+  nowplaying:
+    description: "Show the current song"
+  shuffle:
+    description: "Shuffle the queue"
+  remove:
+    description: "Remove a song from the queue"
+    position_description: "The position of the song to remove (1-indexed)"
+
+# Response messages
+response:
+  now_playing: "Now playing: **{title}** [{duration}]"
+  added_to_queue: "Added to queue at position {position}: **{title}** [{duration}]"
+  nothing_playing: "Nothing is playing."
+  skipped_with_title: "Skipped: **{title}**"
+  skipped: "Skipped."
+  queue_empty: "The queue is empty."
+  queue_now_playing: "**Now playing:** {title} [{duration}]"
+  queue_up_next: "**Up next:**"
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... and {count} more"
+  queue_total_time_hours: "**Total queue time:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Total queue time:** {minutes}m {seconds}s"
+  cleared_tracks: "Cleared {count} tracks from the queue."
+  not_connected: "Not connected to a voice channel."
+  stopped_disconnected: "Stopped playback and disconnected."
+  paused: "Paused."
+  nothing_paused: "Nothing is paused."
+  resumed: "Resumed."
+  nowplaying_detail: "**Now playing:** {title} [{duration}]\nRequested by: {requester}"
+  not_enough_tracks_shuffle: "Not enough tracks in queue to shuffle."
+  queue_shuffled: "Queue shuffled!"
+  removed_track: "Removed: **{title}** from position {position}"
+  invalid_position: "Invalid position. Queue has {count} tracks."
+
+# Misc
+track:
+  unknown_title: "Unknown"
+
+# Log messages
+log:
+  slash_commands_synced: "Slash commands synced"
+  logged_in: "Logged in as {user}"

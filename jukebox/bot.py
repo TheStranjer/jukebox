@@ -9,6 +9,7 @@ from discord import app_commands
 from discord.ext import commands
 
 from .audio_source import AudioSource, YTDLPSource
+from .i18n import t
 from .jukebox import Jukebox
 from .track import Track
 
@@ -49,11 +50,11 @@ class JukeboxBot(commands.Bot):
         """Set up the bot and sync commands."""
         await self.add_cog(JukeboxCog(self))
         await self.tree.sync()
-        logger.info("Slash commands synced")
+        logger.info(t("log.slash_commands_synced"))
 
     async def on_ready(self) -> None:
         """Handle bot ready event."""
-        logger.info(f"Logged in as {self.user}")
+        logger.info(t("log.logged_in", user=self.user))
 
 
 class JukeboxCog(commands.Cog):
@@ -71,14 +72,14 @@ class JukeboxCog(commands.Cog):
         """
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return None
 
         member = cast(discord.Member, interaction.user)
         if member.voice is None or member.voice.channel is None:
             await interaction.response.send_message(
-                "You need to be in a voice channel.", ephemeral=True
+                t("error.need_voice_channel"), ephemeral=True
             )
             return None
 
@@ -113,7 +114,7 @@ class JukeboxCog(commands.Cog):
 
         def after_playing(error: Exception | None) -> None:
             if error:
-                logger.error(f"Playback error: {error}")
+                logger.error(t("error.playback", error=error))
             # Schedule next track on the event loop
             asyncio.run_coroutine_threadsafe(
                 self._async_play_next(guild_id), self.bot.loop
@@ -127,8 +128,8 @@ class JukeboxCog(commands.Cog):
         """Async wrapper for playing next track."""
         self._play_next(guild_id)
 
-    @app_commands.command(name="play", description="Play a song from a URL")
-    @app_commands.describe(url="The URL of the song to play (YouTube, SoundCloud, etc.)")
+    @app_commands.command(name="play", description=t("command.play.description"))
+    @app_commands.describe(url=t("command.play.url_description"))
     async def play(self, interaction: discord.Interaction, url: str) -> None:
         """Add a song to the queue and start playing."""
         result = await self._ensure_voice(interaction)
@@ -145,7 +146,7 @@ class JukeboxCog(commands.Cog):
                 self.bot.audio_source.fetch_track, url, interaction.user.display_name
             )
         except Exception as e:
-            await interaction.followup.send(f"Error fetching track: {e}")
+            await interaction.followup.send(t("error.fetch_track", error=e))
             return
 
         position = state.jukebox.add(track)
@@ -155,100 +156,99 @@ class JukeboxCog(commands.Cog):
             if next_track:
                 self._play_track(state, next_track, guild_id)
                 await interaction.followup.send(
-                    f"Now playing: **{track.title}** [{track.format_duration()}]"
+                    t("response.now_playing", title=track.title, duration=track.format_duration())
                 )
         else:
             await interaction.followup.send(
-                f"Added to queue at position {position + 1}: **{track.title}** [{track.format_duration()}]"
+                t("response.added_to_queue", position=position + 1, title=track.title, duration=track.format_duration())
             )
 
-    @app_commands.command(name="skip", description="Skip the current song")
+    @app_commands.command(name="skip", description=t("command.skip.description"))
     async def skip(self, interaction: discord.Interaction) -> None:
         """Skip the current song."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
         state = self.bot.get_guild_state(interaction.guild.id)
 
         if state.voice_client is None or not state.is_playing:
-            await interaction.response.send_message("Nothing is playing.", ephemeral=True)
+            await interaction.response.send_message(t("response.nothing_playing"), ephemeral=True)
             return
 
         current = state.jukebox.current
         state.voice_client.stop()  # This triggers the after callback
         await interaction.response.send_message(
-            f"Skipped: **{current.title}**" if current else "Skipped."
+            t("response.skipped_with_title", title=current.title) if current else t("response.skipped")
         )
 
-    @app_commands.command(name="queue", description="Show the current queue")
+    @app_commands.command(name="queue", description=t("command.queue.description"))
     async def queue(self, interaction: discord.Interaction) -> None:
         """Display the current queue."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
         state = self.bot.get_guild_state(interaction.guild.id)
 
         if state.jukebox.is_empty and state.jukebox.current is None:
-            await interaction.response.send_message("The queue is empty.")
+            await interaction.response.send_message(t("response.queue_empty"))
             return
 
         lines = []
         if state.jukebox.current:
             lines.append(
-                f"**Now playing:** {state.jukebox.current.title} "
-                f"[{state.jukebox.current.format_duration()}]"
+                t("response.queue_now_playing", title=state.jukebox.current.title, duration=state.jukebox.current.format_duration())
             )
 
         queue = state.jukebox.queue
         if queue:
-            lines.append("\n**Up next:**")
+            lines.append("\n" + t("response.queue_up_next"))
             for i, track in enumerate(queue[:10], 1):
-                lines.append(f"{i}. {track.title} [{track.format_duration()}]")
+                lines.append(t("response.queue_track_item", position=i, title=track.title, duration=track.format_duration()))
             if len(queue) > 10:
-                lines.append(f"... and {len(queue) - 10} more")
+                lines.append(t("response.queue_more_tracks", count=len(queue) - 10))
 
             total_duration = state.jukebox.get_queue_duration()
             hours, remainder = divmod(total_duration, 3600)
             minutes, seconds = divmod(remainder, 60)
             if hours:
-                lines.append(f"\n**Total queue time:** {hours}h {minutes}m")
+                lines.append("\n" + t("response.queue_total_time_hours", hours=hours, minutes=minutes))
             else:
-                lines.append(f"\n**Total queue time:** {minutes}m {seconds}s")
+                lines.append("\n" + t("response.queue_total_time_minutes", minutes=minutes, seconds=seconds))
 
         await interaction.response.send_message("\n".join(lines))
 
-    @app_commands.command(name="clear", description="Clear the queue")
+    @app_commands.command(name="clear", description=t("command.clear.description"))
     async def clear(self, interaction: discord.Interaction) -> None:
         """Clear all songs from the queue."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
         state = self.bot.get_guild_state(interaction.guild.id)
         count = state.jukebox.clear()
-        await interaction.response.send_message(f"Cleared {count} tracks from the queue.")
+        await interaction.response.send_message(t("response.cleared_tracks", count=count))
 
-    @app_commands.command(name="stop", description="Stop playback and disconnect")
+    @app_commands.command(name="stop", description=t("command.stop.description"))
     async def stop(self, interaction: discord.Interaction) -> None:
         """Stop playback, clear queue, and disconnect from voice."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
         state = self.bot.get_guild_state(interaction.guild.id)
 
         if state.voice_client is None:
-            await interaction.response.send_message("Not connected to a voice channel.")
+            await interaction.response.send_message(t("response.not_connected"))
             return
 
         state.jukebox.clear()
@@ -256,50 +256,50 @@ class JukeboxCog(commands.Cog):
         state.is_playing = False
         await state.voice_client.disconnect()
         state.voice_client = None
-        await interaction.response.send_message("Stopped playback and disconnected.")
+        await interaction.response.send_message(t("response.stopped_disconnected"))
 
-    @app_commands.command(name="pause", description="Pause the current song")
+    @app_commands.command(name="pause", description=t("command.pause.description"))
     async def pause(self, interaction: discord.Interaction) -> None:
         """Pause playback."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
         state = self.bot.get_guild_state(interaction.guild.id)
 
         if state.voice_client is None or not state.voice_client.is_playing():
-            await interaction.response.send_message("Nothing is playing.", ephemeral=True)
+            await interaction.response.send_message(t("response.nothing_playing"), ephemeral=True)
             return
 
         state.voice_client.pause()
-        await interaction.response.send_message("Paused.")
+        await interaction.response.send_message(t("response.paused"))
 
-    @app_commands.command(name="resume", description="Resume the paused song")
+    @app_commands.command(name="resume", description=t("command.resume.description"))
     async def resume(self, interaction: discord.Interaction) -> None:
         """Resume playback."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
         state = self.bot.get_guild_state(interaction.guild.id)
 
         if state.voice_client is None or not state.voice_client.is_paused():
-            await interaction.response.send_message("Nothing is paused.", ephemeral=True)
+            await interaction.response.send_message(t("response.nothing_paused"), ephemeral=True)
             return
 
         state.voice_client.resume()
-        await interaction.response.send_message("Resumed.")
+        await interaction.response.send_message(t("response.resumed"))
 
-    @app_commands.command(name="nowplaying", description="Show the current song")
+    @app_commands.command(name="nowplaying", description=t("command.nowplaying.description"))
     async def nowplaying(self, interaction: discord.Interaction) -> None:
         """Show what's currently playing."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
@@ -307,20 +307,19 @@ class JukeboxCog(commands.Cog):
         current = state.jukebox.current
 
         if current is None:
-            await interaction.response.send_message("Nothing is playing.")
+            await interaction.response.send_message(t("response.nothing_playing"))
             return
 
         await interaction.response.send_message(
-            f"**Now playing:** {current.title} [{current.format_duration()}]\n"
-            f"Requested by: {current.requester}"
+            t("response.nowplaying_detail", title=current.title, duration=current.format_duration(), requester=current.requester)
         )
 
-    @app_commands.command(name="shuffle", description="Shuffle the queue")
+    @app_commands.command(name="shuffle", description=t("command.shuffle.description"))
     async def shuffle(self, interaction: discord.Interaction) -> None:
         """Shuffle the queue."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
@@ -328,20 +327,20 @@ class JukeboxCog(commands.Cog):
 
         if len(state.jukebox.queue) < 2:
             await interaction.response.send_message(
-                "Not enough tracks in queue to shuffle.", ephemeral=True
+                t("response.not_enough_tracks_shuffle"), ephemeral=True
             )
             return
 
         state.jukebox.shuffle()
-        await interaction.response.send_message("Queue shuffled!")
+        await interaction.response.send_message(t("response.queue_shuffled"))
 
-    @app_commands.command(name="remove", description="Remove a song from the queue")
-    @app_commands.describe(position="The position of the song to remove (1-indexed)")
+    @app_commands.command(name="remove", description=t("command.remove.description"))
+    @app_commands.describe(position=t("command.remove.position_description"))
     async def remove(self, interaction: discord.Interaction, position: int) -> None:
         """Remove a song from the queue by position."""
         if interaction.guild is None:
             await interaction.response.send_message(
-                "This command can only be used in a server.", ephemeral=True
+                t("error.server_only_command"), ephemeral=True
             )
             return
 
@@ -350,10 +349,10 @@ class JukeboxCog(commands.Cog):
         try:
             track = state.jukebox.remove(position - 1)
             await interaction.response.send_message(
-                f"Removed: **{track.title}** from position {position}"
+                t("response.removed_track", title=track.title, position=position)
             )
         except IndexError:
             await interaction.response.send_message(
-                f"Invalid position. Queue has {len(state.jukebox.queue)} tracks.",
+                t("response.invalid_position", count=len(state.jukebox.queue)),
                 ephemeral=True,
             )

@@ -3,6 +3,7 @@
 import random
 from typing import Callable
 
+from .i18n import t
 from .track import Track
 
 
@@ -77,7 +78,7 @@ class Jukebox:
             IndexError: If the index is out of range.
         """
         if index < 0 or index >= len(self._queue):
-            raise IndexError(f"Index {index} out of range (queue size: {len(self._queue)})")
+            raise IndexError(t("error.index_out_of_range", index=index, size=len(self._queue)))
         return self._queue.pop(index)
 
     def clear(self) -> int:
@@ -158,9 +159,9 @@ class Jukebox:
             IndexError: If either index is out of range.
         """
         if from_index < 0 or from_index >= len(self._queue):
-            raise IndexError(f"from_index {from_index} out of range")
+            raise IndexError(t("error.from_index_out_of_range", index=from_index))
         if to_index < 0 or to_index >= len(self._queue):
-            raise IndexError(f"to_index {to_index} out of range")
+            raise IndexError(t("error.to_index_out_of_range", index=to_index))
 
         track = self._queue.pop(from_index)
         self._queue.insert(to_index, track)

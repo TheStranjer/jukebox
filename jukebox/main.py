@@ -7,6 +7,7 @@ import sys
 from dotenv import load_dotenv
 
 from .bot import JukeboxBot
+from .i18n import t
 
 
 def main() -> None:
@@ -20,8 +21,8 @@ def main() -> None:
 
     token = os.getenv("DISCORD_TOKEN")
     if not token:
-        print("Error: DISCORD_TOKEN environment variable not set.", file=sys.stderr)
-        print("Please set it in a .env file or as an environment variable.", file=sys.stderr)
+        print(t("error.discord_token_not_set"), file=sys.stderr)
+        print(t("error.discord_token_instructions"), file=sys.stderr)
         sys.exit(1)
 
     bot = JukeboxBot()
