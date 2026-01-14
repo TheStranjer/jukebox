@@ -1,3 +1,4 @@
 .env
 venv/
-jukebox/**/*.pyc
+*.pyc
+__pycache__/
