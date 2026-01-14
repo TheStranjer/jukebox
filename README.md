@@ -18,6 +18,34 @@ A Discord bot that plays audio from YouTube and other sources using slash comman
 
 ## Installation
 
+### One-step install (recommended)
+
+Run the installer from the repo root:
+```bash
+./scripts/install.sh
+```
+
+Options:
+```bash
+./scripts/install.sh --systemd
+./scripts/install.sh --no-systemd
+./scripts/install.sh --discord-token=YOUR_TOKEN
+./scripts/install.sh --service-user=jukebox
+```
+
+The installer will:
+- Create a virtual environment and install dependencies
+- Prompt for your Discord bot token (unless provided)
+- Optionally set up and start a systemd service when run as root
+- Ask whether to create a dedicated service user (default name: jukebox)
+
+If you pass `--service-user=NAME`, the installer skips user prompts and uses that
+service user. If the user already exists, it is reused; otherwise it is created.
+To skip user creation entirely, set `--service-user` to your current user.
+This flag only applies when systemd is enabled.
+
+### Manual install
+
 1. Clone the repository:
    ```bash
    git clone <repository-url>
