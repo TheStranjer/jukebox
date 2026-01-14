@@ -1,0 +1,70 @@
+---
+error:
+  discord_token_not_set: 'Errore: la variabile d''ambiente DISCORD_TOKEN non è impostata.'
+  discord_token_instructions: Si prega di impostarlo in un file .env o come variabile
+    d'ambiente.
+  server_only_command: Questo comando può essere usato solo in un server.
+  need_voice_channel: Devi essere in un canale vocale.
+  fetch_track: 'Errore durante il recupero della traccia: {error}'
+  playback: 'Errore di riproduzione: {error}'
+  extract_info: 'Impossibile estrarre le informazioni dall''URL: {url}'
+  index_out_of_range: 'Indice {index} fuori dall''intervallo (dimensione della coda:
+    {size})'
+  from_index_out_of_range: from_index {index} fuori dall'intervallo
+  to_index_out_of_range: to_index {index} fuori dall'intervallo
+command:
+  play:
+    description: Riprodurre una canzone da un URL
+    url_description: L'URL della canzone da riprodurre (YouTube, SoundCloud, ecc.)
+  skip:
+    description: Salta la canzone corrente
+  queue:
+    description: Mostra la coda attuale
+  clear:
+    description: Svuota la coda
+  stop:
+    description: Interrompi la riproduzione e disconnetti
+  pause:
+    description: Metti in pausa la canzone corrente
+  resume:
+    description: Riprendi la canzone in pausa
+  nowplaying:
+    description: Mostra la canzone attuale
+  shuffle:
+    description: Mescolare la coda
+  remove:
+    description: Rimuovere una canzone dalla coda
+    position_description: La posizione della canzone da rimuovere (indicizzata a partire
+      da 1)
+response:
+  now_playing: 'In riproduzione: **{title}** [{duration}]'
+  added_to_queue: 'Aggiunto alla coda in posizione {position}: **{title}** [{duration}]'
+  nothing_playing: Non c'è niente in riproduzione.
+  skipped_with_title: 'Saltato: **{title}**'
+  skipped: Saltato.
+  queue_empty: La coda è vuota.
+  queue_now_playing: "**In riproduzione:** {title} [{duration}]"
+  queue_up_next: 'In arrivo:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... e altri {count}"
+  queue_total_time_hours: "**Tempo totale in coda:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Tempo totale in coda:** {minutes}m {seconds}s"
+  cleared_tracks: Sono state rimosse {count} tracce dalla coda.
+  not_connected: Non connesso a un canale vocale.
+  stopped_disconnected: La riproduzione è stata interrotta e la connessione è stata
+    disconnessa.
+  paused: In pausa.
+  nothing_paused: Nulla è in pausa.
+  resumed: Ripreso.
+  nowplaying_detail: |-
+    **In riproduzione:** {title} [{duration}]
+    Richiesto da: {requester}
+  not_enough_tracks_shuffle: Non ci sono abbastanza brani nella coda per mescolare.
+  queue_shuffled: Coda mescolata!
+  removed_track: 'Rimosso: **{title}** dalla posizione {position}'
+  invalid_position: Posizione non valida. La coda contiene {count} tracce.
+track:
+  unknown_title: Sconosciuto
+log:
+  slash_commands_synced: Comandi slash sincronizzati
+  logged_in: Connesso come {user}

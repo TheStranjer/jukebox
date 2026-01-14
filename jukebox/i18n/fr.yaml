@@ -1,0 +1,70 @@
+---
+error:
+  discord_token_not_set: 'Erreur: la variable d''environnement DISCORD_TOKEN n''est
+    pas définie.'
+  discord_token_instructions: Veuillez le définir dans un fichier .env ou comme variable
+    d'environnement.
+  server_only_command: Cette commande ne peut être utilisée que sur un serveur.
+  need_voice_channel: Vous devez être dans un canal vocal.
+  fetch_track: 'Erreur lors de la récupération de la piste : {error}'
+  playback: 'Erreur de lecture : {error}'
+  extract_info: 'Impossible d''extraire les informations de l''URL : {url}'
+  index_out_of_range: 'Index {index} hors de portée (taille de la file : {size})'
+  from_index_out_of_range: from_index {index} hors de portée
+  to_index_out_of_range: to_index {index} hors de portée
+command:
+  play:
+    description: Lire une chanson depuis une URL
+    url_description: L'URL de la chanson à lire (YouTube, SoundCloud, etc.)
+  skip:
+    description: Passer la chanson actuelle
+  queue:
+    description: Afficher la file d'attente actuelle
+  clear:
+    description: Vider la file d'attente
+  stop:
+    description: Arrêter la lecture et déconnecter
+  pause:
+    description: Mettre en pause la chanson en cours
+  resume:
+    description: Reprendre la chanson en pause
+  nowplaying:
+    description: Afficher la chanson actuelle
+  shuffle:
+    description: Mélanger la file d'attente
+  remove:
+    description: Supprimer une chanson de la file d'attente
+    position_description: La position de la chanson à supprimer (indexée à partir
+      de 1)
+response:
+  now_playing: 'Lecture en cours: **{title}** [{duration}]'
+  added_to_queue: 'Ajouté à la file d''attente à la position {position} : **{title}**
+    [{duration}]'
+  nothing_playing: Rien n'est en cours de lecture.
+  skipped_with_title: 'Ignoré: **{title}**'
+  skipped: Ignoré.
+  queue_empty: La file d'attente est vide.
+  queue_now_playing: "**Lecture en cours :** {title} [{duration}]"
+  queue_up_next: 'À suivre:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... et {count} de plus"
+  queue_total_time_hours: "**Temps total en file d'attente :** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Temps total dans la file d'attente:** {minutes}m {seconds}s"
+  cleared_tracks: Supprimé {count} pistes de la file d'attente.
+  not_connected: Non connecté à un canal vocal.
+  stopped_disconnected: La lecture a été arrêtée et la connexion a été interrompue.
+  paused: En pause.
+  nothing_paused: Rien n'est en pause.
+  resumed: Repris.
+  nowplaying_detail: |-
+    **Lecture en cours :** {title} [{duration}]
+    Demandé par : {requester}
+  not_enough_tracks_shuffle: Pas assez de pistes dans la file d'attente pour mélanger.
+  queue_shuffled: La file d'attente a été mélangée !
+  removed_track: 'Supprimé: **{title}** de la position {position}'
+  invalid_position: Position invalide. La file d'attente contient {count} titres.
+track:
+  unknown_title: Inconnu
+log:
+  slash_commands_synced: Commandes slash synchronisées
+  logged_in: Connecté en tant que {user}

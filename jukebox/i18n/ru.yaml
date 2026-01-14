@@ -1,0 +1,67 @@
+---
+error:
+  discord_token_not_set: 'Ошибка: переменная окружения DISCORD_TOKEN не установлена.'
+  discord_token_instructions: Пожалуйста, поместите это в файл .env или задайте как
+    переменную окружения.
+  server_only_command: Эту команду можно использовать только на сервере.
+  need_voice_channel: Вам нужно быть в голосовом канале.
+  fetch_track: 'Ошибка при получении трека: {error}'
+  playback: 'Ошибка воспроизведения: {error}'
+  extract_info: 'Не удалось извлечь информацию из URL: {url}'
+  index_out_of_range: 'Индекс {index} вне диапазона (размер очереди: {size})'
+  from_index_out_of_range: from_index {index} вне диапазона
+  to_index_out_of_range: to_index {index} вне диапазона
+command:
+  play:
+    description: Воспроизвести песню по URL
+    url_description: URL песни для воспроизведения (YouTube, SoundCloud и т.д.)
+  skip:
+    description: Пропустить текущую песню
+  queue:
+    description: Показать текущую очередь
+  clear:
+    description: Очистить очередь
+  stop:
+    description: Остановить воспроизведение и отключиться
+  pause:
+    description: Поставить текущую песню на паузу
+  resume:
+    description: Возобновить приостановленную песню
+  nowplaying:
+    description: Показать текущую песню
+  shuffle:
+    description: Перемешать очередь
+  remove:
+    description: Удалить песню из очереди
+    position_description: Позиция песни для удаления (индексация с 1)
+response:
+  now_playing: 'Сейчас играет: **{title}** [{duration}]'
+  added_to_queue: 'Добавлено в очередь на позицию {position}: **{title}** [{duration}]'
+  nothing_playing: Сейчас ничего не воспроизводится.
+  skipped_with_title: 'Пропущено: **{title}**'
+  skipped: Пропущено.
+  queue_empty: Очередь пуста.
+  queue_now_playing: "**Сейчас играет:** {title} [{duration}]"
+  queue_up_next: 'Далее:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... и ещё {count}"
+  queue_total_time_hours: "**Общее время в очереди:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Общее время в очереди:** {minutes}m {seconds}s"
+  cleared_tracks: Удалено {count} треков из очереди.
+  not_connected: Не подключены к голосовому каналу.
+  stopped_disconnected: Воспроизведение остановлено, соединение разорвано.
+  paused: Приостановлено.
+  nothing_paused: Ничего не приостановлено.
+  resumed: Возобновлено.
+  nowplaying_detail: |-
+    **Сейчас играет:** {title} [{duration}]
+    Запрошено: {requester}
+  not_enough_tracks_shuffle: В очереди недостаточно треков для перемешивания.
+  queue_shuffled: Очередь перемешана!
+  removed_track: 'Удалено: **{title}** с позиции {position}'
+  invalid_position: Неверная позиция. В очереди {count} треков.
+track:
+  unknown_title: Неизвестно
+log:
+  slash_commands_synced: Slash-команды синхронизированы
+  logged_in: Вход выполнен как {user}

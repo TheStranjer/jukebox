@@ -1,0 +1,71 @@
+---
+error:
+  discord_token_not_set: 'Fehler: Die Umgebungsvariable DISCORD_TOKEN ist nicht gesetzt.'
+  discord_token_instructions: Bitte legen Sie es in einer .env-Datei fest oder als
+    Umgebungsvariable.
+  server_only_command: Dieser Befehl kann nur auf einem Server verwendet werden.
+  need_voice_channel: Du musst in einem Sprachkanal sein.
+  fetch_track: 'Fehler beim Abrufen des Titels: {error}'
+  playback: 'Wiedergabefehler: {error}'
+  extract_info: 'Konnte keine Informationen aus der URL extrahieren: {url}'
+  index_out_of_range: 'Index {index} außerhalb des Bereichs (Warteschlangengröße:
+    {size})'
+  from_index_out_of_range: from_index {index} außerhalb des Bereichs
+  to_index_out_of_range: to_index {index} außerhalb des Bereichs
+command:
+  play:
+    description: Ein Lied von einer URL abspielen
+    url_description: Die URL des abzuspielenden Songs (YouTube, SoundCloud usw.)
+  skip:
+    description: Aktuellen Titel überspringen
+  queue:
+    description: Zeige die aktuelle Warteschlange
+  clear:
+    description: Warteschlange leeren
+  stop:
+    description: Wiedergabe stoppen und trennen
+  pause:
+    description: Pausiere das aktuelle Lied
+  resume:
+    description: Setze das pausierte Lied fort
+  nowplaying:
+    description: Aktuellen Titel anzeigen
+  shuffle:
+    description: Warteschlange mischen
+  remove:
+    description: Einen Titel aus der Warteschlange entfernen
+    position_description: Die Position des zu entfernenden Liedes (1-basiert)
+response:
+  now_playing: 'Jetzt läuft: **{title}** [{duration}]'
+  added_to_queue: 'Zur Warteschlange an Position {position} hinzugefügt: **{title}**
+    [{duration}]'
+  nothing_playing: Es wird nichts abgespielt.
+  skipped_with_title: 'Übersprungen: **{title}**'
+  skipped: Übersprungen.
+  queue_empty: Die Warteschlange ist leer.
+  queue_now_playing: "**Wird gerade abgespielt:** {title} [{duration}]"
+  queue_up_next: 'Als Nächstes:'
+  queue_track_item: "{position}. {title} [{duration}]"
+  queue_more_tracks: "... und {count} mehr"
+  queue_total_time_hours: "**Gesamte Wartezeit in der Warteschlange:** {hours}h {minutes}m"
+  queue_total_time_minutes: "**Gesamte Wartezeit in der Warteschlange:** {minutes}m
+    {seconds}s"
+  cleared_tracks: Es wurden {count} Titel aus der Warteschlange entfernt.
+  not_connected: Nicht mit einem Sprachkanal verbunden.
+  stopped_disconnected: Die Wiedergabe wurde gestoppt und die Verbindung wurde getrennt.
+  paused: Pausiert.
+  nothing_paused: Nichts ist pausiert.
+  resumed: Fortgesetzt.
+  nowplaying_detail: |-
+    **Jetzt läuft:** {title} [{duration}]
+    Angefragt von: {requester}
+  not_enough_tracks_shuffle: Nicht genügend Titel in der Warteschlange, um sie zu
+    mischen.
+  queue_shuffled: Warteschlange wurde gemischt!
+  removed_track: 'Entfernt: **{title}** von Position {position}'
+  invalid_position: Ungültige Position. Die Warteschlange hat {count} Titel.
+track:
+  unknown_title: Unbekannt
+log:
+  slash_commands_synced: Slash-Befehle synchronisiert
+  logged_in: Angemeldet als {user}
