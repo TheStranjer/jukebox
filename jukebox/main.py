@@ -7,6 +7,7 @@ import sys
 from dotenv import load_dotenv
 
 from .bot import JukeboxBot
+from .database import run_migrations
 from .i18n import t
 
 
@@ -18,6 +19,9 @@ def main() -> None:
         level=logging.INFO,
         format="%(asctime)s - %(name)s - %(levelname)s - %(message)s",
     )
+
+    # Run database migrations
+    run_migrations()
 
     token = os.getenv("DISCORD_TOKEN")
     if not token:

@@ -35,6 +35,10 @@ command:
   remove:
     description: "Remove a song from the queue"
     position_description: "The position of the song to remove (1-indexed)"
+  language:
+    description: "Set the language for the bot"
+    language_description: "The language code (e.g., en, es, de, fr)"
+    personal_description: "Set language for yourself only (true) or the entire server (false)"
 
 # Response messages
 response:
@@ -61,6 +65,10 @@ response:
   queue_shuffled: "Queue shuffled!"
   removed_track: "Removed: **{title}** from position {position}"
   invalid_position: "Invalid position. Queue has {count} tracks."
+  language_set_personal: "Your personal language has been set to **{language}**."
+  language_set_guild: "The server language has been set to **{language}**."
+  invalid_language: "Invalid language code. Available languages: {languages}"
+  need_manage_guild: "You need the Manage Server permission to change the server language."
 
 # Misc
 track:

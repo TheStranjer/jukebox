@@ -34,6 +34,10 @@ command:
   remove:
     description: Eliminar una canción de la cola
     position_description: La posición de la canción a eliminar (indexada desde 1)
+  language:
+    description: Establecer el idioma del bot
+    language_description: El código de idioma (p. ej., en, es, de, fr)
+    personal_description: Establecer idioma solo para ti (true) o para todo el servidor (false)
 response:
   now_playing: 'Reproduciendo ahora: **{title}** [{duration}]'
   added_to_queue: 'Añadido a la cola en la posición {position}: **{title}** [{duration}]'
@@ -60,6 +64,10 @@ response:
   queue_shuffled: "¡Cola mezclada!"
   removed_track: 'Eliminado: **{title}** de la posición {position}'
   invalid_position: Posición no válida. La cola tiene {count} pistas.
+  language_set_personal: Tu idioma personal se ha establecido a **{language}**.
+  language_set_guild: El idioma del servidor se ha establecido a **{language}**.
+  invalid_language: 'Código de idioma no válido. Idiomas disponibles: {languages}'
+  need_manage_guild: Necesitas el permiso de Administrar servidor para cambiar el idioma del servidor.
 track:
   unknown_title: Desconocido
 log:
