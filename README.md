@@ -69,6 +69,17 @@ This flag only applies when systemd is enabled.
    DISCORD_TOKEN=your_bot_token_here
    ```
 
+### YouTube Authentication
+
+If YouTube requires bot verification, set `YOUTUBE_COOKIES` to the raw `Cookie`
+HTTP header value from a logged-in YouTube session. This value is only applied
+to YouTube URLs.
+
+Example:
+```
+YOUTUBE_COOKIES=SID=abc; HSID=def; SSID=ghi
+```
+
 ## Discord Bot Setup
 
 1. Go to the [Discord Developer Portal](https://discord.com/developers/applications)
