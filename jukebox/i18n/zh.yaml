@@ -72,3 +72,8 @@ track:
 log:
   slash_commands_synced: 斜杠命令已同步
   logged_in: 已登录为 {user}
+  unexpected_disconnect: 在服务器 {guild_id} 中发生意外的语音断开，正在尝试重新连接...
+  reconnecting: 正在在服务器 {guild_id} 重新连接语音 (尝试 {attempt}/{max_attempts})
+  reconnect_failed_max_attempts: 在服务器 {guild_id} 中，达到最大尝试次数后无法重新连接
+  reconnect_error: '公会 {guild_id} 重连错误: {error}'
+  resuming_playback: 在服务器 {guild_id} 重新连接后恢复播放

@@ -75,3 +75,11 @@ track:
 log:
   slash_commands_synced: Comandos slash sincronizados
   logged_in: Conectado como {user}
+  unexpected_disconnect: Desconexão de voz inesperada no servidor {guild_id}, tentando
+    reconectar...
+  reconnecting: Reconectando ao canal de voz (tentativa {attempt}/{max_attempts})
+    no servidor {guild_id}
+  reconnect_failed_max_attempts: Falha ao reconectar após o número máximo de tentativas
+    no servidor {guild_id}
+  reconnect_error: 'Erro de reconexão no servidor {guild_id}: {error}'
+  resuming_playback: Retomando a reprodução após reconexão no servidor {guild_id}

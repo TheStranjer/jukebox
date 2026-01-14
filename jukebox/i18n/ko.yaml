@@ -72,3 +72,8 @@ track:
 log:
   slash_commands_synced: 슬래시 명령이 동기화되었습니다
   logged_in: "{user}로 로그인했습니다"
+  unexpected_disconnect: 서버 {guild_id}에서 음성 연결이 예기치 않게 끊어졌습니다. 재연결을 시도합니다...
+  reconnecting: 길드 {guild_id}에서 음성에 다시 연결 중 (시도 {attempt}/{max_attempts})
+  reconnect_failed_max_attempts: "{guild_id} 길드에서 최대 시도 횟수에 도달한 후 다시 연결하지 못했습니다"
+  reconnect_error: '길드 {guild_id}에서 재연결 오류: {error}'
+  resuming_playback: 길드 {guild_id}에서 재연결 후 재생을 재개합니다

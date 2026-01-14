@@ -75,3 +75,12 @@ track:
 log:
   slash_commands_synced: Slash-команды синхронизированы
   logged_in: Вход выполнен как {user}
+  unexpected_disconnect: Неожиданное отключение голосовой связи на сервере {guild_id},
+    попытка переподключения...
+  reconnecting: Переподключение к голосовому каналу (попытка {attempt}/{max_attempts})
+    на сервере {guild_id}
+  reconnect_failed_max_attempts: Не удалось переподключиться после максимального числа
+    попыток в гильдии {guild_id}
+  reconnect_error: 'Ошибка повторного подключения в гильдии {guild_id}: {error}'
+  resuming_playback: Возобновление воспроизведения после переподключения на сервере
+    {guild_id}

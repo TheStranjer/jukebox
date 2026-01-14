@@ -72,3 +72,8 @@ track:
 log:
   slash_commands_synced: スラッシュコマンドが同期されました
   logged_in: "{user}としてログインしています"
+  unexpected_disconnect: サーバー {guild_id} で音声接続が予期せず切断されました。再接続を試みています...
+  reconnecting: ギルド {guild_id} の音声に再接続しています (試行 {attempt}/{max_attempts})
+  reconnect_failed_max_attempts: "{guild_id} のギルドで最大試行回数に達し、再接続に失敗しました"
+  reconnect_error: 'ギルド {guild_id} での再接続エラー: {error}'
+  resuming_playback: ギルド {guild_id} で再接続後に再生を再開しています

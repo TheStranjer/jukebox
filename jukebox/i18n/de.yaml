@@ -79,3 +79,12 @@ track:
 log:
   slash_commands_synced: Slash-Befehle synchronisiert
   logged_in: Angemeldet als {user}
+  unexpected_disconnect: Unerwartete Sprachverbindungstrennung auf dem Server {guild_id},
+    versuche, die Verbindung wiederherzustellen...
+  reconnecting: Wiederverbinden mit der Sprachverbindung (Versuch {attempt}/{max_attempts})
+    auf dem Server {guild_id}
+  reconnect_failed_max_attempts: Verbindung konnte nach der maximalen Anzahl von Versuchen
+    zum Server {guild_id} nicht wiederhergestellt werden
+  reconnect_error: 'Verbindungsfehler in der Gilde {guild_id}: {error}'
+  resuming_playback: Wiedergabe wird nach dem Wiederverbinden auf dem Server {guild_id}
+    fortgesetzt
