@@ -282,6 +282,28 @@ class TestPlayNextReconnect:
         # Should have called _play_track with the next track
         cog._play_track.assert_called_once()
 
+    def test_play_next_disconnects_when_queue_empty(
+        self, cog: JukeboxCog, mock_bot: MagicMock
+    ) -> None:
+        """Test that _play_next disconnects when out of songs."""
+        guild_id = 12345
+        state = mock_bot.get_guild_state(guild_id)
+
+        mock_voice_client = MagicMock()
+        mock_voice_client.is_connected = MagicMock(return_value=True)
+        state.voice_client = mock_voice_client
+        state.is_playing = True
+        state.jukebox._current = make_track("Last Song")
+
+        with patch("asyncio.run_coroutine_threadsafe") as mock_run:
+            cog._play_next(guild_id)
+
+        assert state.is_playing is False
+        mock_run.assert_called_once()
+        scheduled = mock_run.call_args[0][0]
+        assert scheduled.cr_code.co_name == "_disconnect_from_voice"
+        scheduled.close()
+
 
 class TestVoiceStateUpdate:
     """Tests for on_voice_state_update event handler."""
@@ -322,6 +344,45 @@ class TestVoiceStateUpdate:
         await cog.on_voice_state_update(member, before, after)
 
         cog._attempt_reconnect.assert_not_called()
+
+    @pytest.mark.asyncio
+    async def test_disconnects_when_left_alone(
+        self, cog: JukeboxCog, mock_bot: MagicMock
+    ) -> None:
+        """Test that bot disconnects when left alone in a channel."""
+        guild_id = 12345
+        member = MagicMock()
+        member.id = 111111  # Not the bot
+        member.guild.id = guild_id
+
+        state = mock_bot.get_guild_state(guild_id)
+        state.is_playing = True
+        state.jukebox._current = make_track("Solo Track")
+
+        bot_member = MagicMock()
+        bot_member.id = mock_bot.user.id
+
+        channel = MagicMock()
+        channel.members = [bot_member]
+
+        voice_client = MagicMock()
+        voice_client.is_connected = MagicMock(return_value=True)
+        voice_client.channel = channel
+        voice_client.disconnect = AsyncMock()
+        state.voice_client = voice_client
+
+        before = MagicMock()
+        before.channel = channel
+        after = MagicMock()
+        after.channel = None
+
+        await cog.on_voice_state_update(member, before, after)
+
+        voice_client.disconnect.assert_awaited_once()
+        assert state.voice_client is None
+        assert state.intentional_disconnect is True
+        assert state.is_playing is False
+        assert state.jukebox.current is None
 
     @pytest.mark.asyncio
     async def test_triggers_reconnect_on_bot_disconnect(

@@ -87,20 +87,33 @@ class JukeboxCog(commands.Cog):
         after: discord.VoiceState,
     ) -> None:
         """Handle voice state changes to detect disconnections."""
-        # Only care about the bot's own voice state changes
-        if member.id != self.bot.user.id:  # type: ignore[union-attr]
-            return
-
         state = self.bot.get_guild_state(member.guild.id)
 
-        # Bot was disconnected from voice
-        if before.channel is not None and after.channel is None:
-            # If we were playing and it wasn't intentional, attempt reconnect
-            if state.is_playing and not state.intentional_disconnect:
-                logger.info(
-                    t("log.unexpected_disconnect", guild_id=member.guild.id)
-                )
-                await self._attempt_reconnect(member.guild.id)
+        # Bot's own voice state changes
+        if member.id == self.bot.user.id:  # type: ignore[union-attr]
+            # Bot was disconnected from voice
+            if before.channel is not None and after.channel is None:
+                # If we were playing and it wasn't intentional, attempt reconnect
+                if state.is_playing and not state.intentional_disconnect:
+                    logger.info(
+                        t("log.unexpected_disconnect", guild_id=member.guild.id)
+                    )
+                    await self._attempt_reconnect(member.guild.id)
+            return
+
+        voice_client = state.voice_client
+        if voice_client is None or not voice_client.is_connected():
+            return
+
+        bot_channel = voice_client.channel
+        if bot_channel is None:
+            return
+
+        if before.channel != bot_channel and after.channel != bot_channel:
+            return
+
+        if len(bot_channel.members) == 1 and bot_channel.members[0].id == self.bot.user.id:  # type: ignore[union-attr]
+            await self._disconnect_from_voice(member.guild.id)
 
     async def _ensure_voice(
         self, interaction: discord.Interaction
@@ -136,6 +149,25 @@ class JukeboxCog(commands.Cog):
 
         return state, state.voice_client
 
+    async def _disconnect_from_voice(self, guild_id: int) -> None:
+        """Disconnect from voice and reset playback state."""
+        state = self.bot.get_guild_state(guild_id)
+        voice_client = state.voice_client
+
+        if voice_client is None:
+            return
+
+        if not voice_client.is_connected():
+            state.voice_client = None
+            return
+
+        state.intentional_disconnect = True
+        state.target_channel_id = None
+        state.is_playing = False
+        state.jukebox.stop()
+        await voice_client.disconnect()
+        state.voice_client = None
+
     def _play_next(self, guild_id: int) -> None:
         """Callback to play the next track when current one finishes."""
         state = self.bot.get_guild_state(guild_id)
@@ -153,6 +185,10 @@ class JukeboxCog(commands.Cog):
         next_track = state.jukebox.next()
         if next_track is None:
             state.is_playing = False
+            if state.voice_client is not None and state.voice_client.is_connected():
+                asyncio.run_coroutine_threadsafe(
+                    self._disconnect_from_voice(guild_id), self.bot.loop
+                )
             return
 
         self._play_track(state, next_track, guild_id)
